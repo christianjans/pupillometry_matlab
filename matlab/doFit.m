@@ -79,6 +79,9 @@ while hasFrame(v)
     
     % adjust contrast
     if params.enhanceContrast
+        if params.brightenBeforeContrast
+            F = imlocalbrighten(F);
+        end
         F = imadjust(F);
     end
     

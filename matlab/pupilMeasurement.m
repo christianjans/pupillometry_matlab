@@ -46,6 +46,11 @@ function allR = pupilMeasurement(varargin)
 %                        enhancement.
 %                        Default = false
 %
+%       brightenBeforeContrast: Flag whether to attempt automatic
+%                               brightening before contrast. The
+%                               enhanceContrast flag must also be set.
+%                               Default = false.
+%
 %       doCrop:     Flag whether to promt user for cropping of video.
 %                   Default = false
 %
@@ -97,10 +102,11 @@ persistent fnGuess
 
 % Check all the input arguments
 pNames = {'fitMethod', 'spSelect', 'doPlot', 'thresVal', 'frameInterval', ...
-    'videoPath', 'fileSavePath', 'startFrame', 'enhanceContrast', 'doCrop', ...
-    'skipBadFrames', 'fillBadData', 'saveLabeledFrames', 'pixelSize'};
+    'videoPath', 'fileSavePath', 'startFrame', 'enhanceContrast', ...
+    'brightenBeforeContrast', 'doCrop', 'skipBadFrames', 'fillBadData', ...
+    'saveLabeledFrames', 'pixelSize'};
 pValues = {2, 'line', false, [], 5, ...
-    [], [], 1, false, false, ...
+    [], [], 1, false, false, false, ...
     true, 'movmedian', false, []};
 params = cell2struct(pValues, pNames, 2);
 
@@ -111,6 +117,7 @@ spSelect = params.spSelect;
 videoPath = params.videoPath;
 startFrame = params.startFrame;
 enhanceContrast = params.enhanceContrast;
+brightenBeforeContrast = params.brightenBeforeContrast;
 doCrop = params.doCrop;
 
 % Select videos
@@ -194,6 +201,13 @@ catch
     error('''enhanceContrast '' must be convertible to logical.')
 end
 
+% Check brightenBeforeContrast flag
+try
+    logical(params.brightenBeforeContrast);
+catch
+    error('''brightenBeforeContrast'' must be convertible to logical.')
+end
+
 % Check if the user wants to see a plot
 try
     logical(params.skipBadFrames);
@@ -229,6 +243,9 @@ for j=1:numVideos
     
     % Auto-adjust image contrast
     if enhanceContrast
+        if brightenBeforeContrast
+            F = imlocalbrighten(F);
+        end
         F = imadjust(F);
     end
     
