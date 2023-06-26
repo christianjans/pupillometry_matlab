@@ -3,3 +3,9 @@
 pupillometry-matlab.zip
 *.mat
 *.csv
+
+example*/
+
+dlc_network/
+
+.DS_Store
