@@ -77,6 +77,9 @@ function allR = pupilMeasurement(varargin)
 %                   provided, output will be given in mm instead of pixels.
 %                   Default = []
 %
+%       rotation:  The number of times to rotate the frames by 90 degrees
+%                  counterclockwise.
+%
 % Output:
 %       R:  A 1*n cell which contain the radii of the pupil in each
 %       processed frame, and these radii will be saved as a csv file
@@ -104,10 +107,10 @@ persistent fnGuess
 pNames = {'fitMethod', 'spSelect', 'doPlot', 'thresVal', 'frameInterval', ...
     'videoPath', 'fileSavePath', 'startFrame', 'enhanceContrast', ...
     'brightenBeforeContrast', 'doCrop', 'skipBadFrames', 'fillBadData', ...
-    'saveLabeledFrames', 'pixelSize'};
+    'saveLabeledFrames', 'pixelSize', 'rotation'};
 pValues = {2, 'line', false, [], 5, ...
     [], [], 1, false, false, false, ...
-    true, 'movmedian', false, []};
+    true, 'movmedian', false, [], 0};
 params = cell2struct(pValues, pNames, 2);
 
 % Parse function input arguments
@@ -119,6 +122,7 @@ startFrame = params.startFrame;
 enhanceContrast = params.enhanceContrast;
 brightenBeforeContrast = params.brightenBeforeContrast;
 doCrop = params.doCrop;
+rotation = params.rotation;
 
 % Select videos
 if isempty(videoPath)
@@ -220,6 +224,11 @@ if isempty(params.fileSavePath)
     params.fileSavePath = uigetdir(vpath,'Please create or select a folder to save the processed images and radii text');
 end
 
+% Check that the rotation amount is valid.
+if rotation ~= 0 && rotation ~= 1 && rotation ~= 2 && rotation ~= 3
+    error('''rotation'' must be 0, 1, 2, or 3. ')
+end
+
 % Check saveLabeledFrames flag
 try
     logical(params.saveLabeledFrames);
@@ -237,6 +246,8 @@ for j=1:numVideos
     % Set video start time
     v.CurrentTime = startFrame/v.FrameRate;
     F = rgb2gray(readFrame(v));
+
+    F = rot90(F, rotation);
     
     % Close video reader
     clearvars v

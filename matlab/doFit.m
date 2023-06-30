@@ -21,6 +21,7 @@ doPlot = params.doPlot;
 thresVal = params.thresVal;
 frameInterval = params.frameInterval;
 skipBadFrames = params.skipBadFrames;
+rotation = params.rotation;
 
 % Preallocate some variables
 sFormer = [];
@@ -58,6 +59,8 @@ while hasFrame(v)
     message = sprintf(['\n\nProcessing ',v.name]);
     utils.progbar(v.CurrentTime/v.Duration,'msg',message);
     F=rgb2gray(readFrame(v));
+
+    F = rot90(F, rotation);
     
     if params.doCrop
         xDim = any(mask, 1);
