@@ -1,10 +1,40 @@
+% A script to clean the raw pupil measurement data.
+%
+% Inputs:
+%     LOW_THRESH:  Remove all pupil size values below this number.
+%
+%     HIGH_THRESH: Remove all pupil size values above this number.
+%
+%     SAVE_PATH:   The path to save the cleaned data.
+%
+%     VIDEO_PATH:  The path to the video analyzed to produce the original
+%                  pupil data.
+%
+%     N_PEAKS:     The number of peaks to show, in descending order of
+%                  prominence.
+%
+%     SMOOTH_N:    The number of points to use in the smoothing averaging.
+%
+% Outputs:
+%     clean.csv:   The cleaned data in CSV format.
+%
+%     clean.mat:   The cleaned data in .mat format.
+%
+%     Peak values: In the command window, a list of the prominences (the
+%                  minimum vertical distance that the signal must descend
+%                  on either side of the peak before either climing back to
+%                  a higher level than the peak or reaching an endpoint) of
+%                  the N_PEAKS most prominent peaks is printed. Further,
+%                  the locations (the frame number at which the peak
+%                  occurs) are also printed in respective order. The same
+%                  is done for troughs in the graph.
+
 LOW_THRESH = 7.0;  % TODO
 HIGH_THRESH = 35.0;  % TODO, typical value is 35.
 SAVE_PATH = "/Users/christian/Documents/summer2023/pupillometry_matlab/example_full4/";  % TODO
 DATA_FILE = "fc2_save_2023-08-08-111558-0000_radii.mat";  % TODO
 VIDEO_PATH = "/Users/christian/Documents/summer2023/matlab/my_data/full4/fc2_save_2023-08-08-111558-0000.avi";  % TODO
 N_PEAKS = 10;  % TODO, typical value is 10.
-% PEAKS_THRESHOLD = 5;
 SMOOTH_N = 5;  % TODO
 
 data = load(fullfile(SAVE_PATH, DATA_FILE));

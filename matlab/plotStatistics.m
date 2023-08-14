@@ -52,10 +52,10 @@ fs = obj.FrameRate;
 figure
 
 subplot(2, 3, 1), plot(data(:, 1), data(:, 2));
-title("raw"), xlabel("frame"), ylabel("pixels")
+title("smoothed"), xlabel("frame"), ylabel("pixels")
 
 subplot(2, 3, 2), plot(data(:, 1), zscore(data(:, 2)))
-title("zscore"), xlabel("frame"), ylabel("pixels")
+title("zscore of smoothed"), xlabel("frame"), ylabel("pixels")
 
 subplot(2, 3, 4), histogram(zscore(data(:, 2)));
 title("zscore of smoothed"), xlabel("frame")
