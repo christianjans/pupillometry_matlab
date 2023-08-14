@@ -41,29 +41,45 @@ else
 end
 
 
+%% Read video data.
+
+obj = VideoReader(video_file);
+fs = obj.FrameRate;
+
+
 %% Data figures
 
 figure
 
 subplot(2, 3, 1), plot(data(:, 1), data(:, 2));
-title("raw")
+title("raw"), xlabel("frame"), ylabel("pixels")
 
-subplot(2, 3, 2), plot(data(:, 1), smooth(data(:, 2)));
-title("smoothed")
+subplot(2, 3, 2), plot(data(:, 1), zscore(data(:, 2)))
+title("zscore"), xlabel("frame"), ylabel("pixels")
 
-subplot(2, 3, 3), plot(data(:, 1), zscore(smooth(data(:, 2))));
-title("zscore of smoothed")
+subplot(2, 3, 4), histogram(zscore(data(:, 2)));
+title("zscore of smoothed"), xlabel("frame")
 
-subplot(2, 3, 4), histogram(zscore(smooth(data(:, 2))));
-title("zscore of smoothed")
+subplot(2, 3, 6), plot(data(1:end-1, 1), diff(data(:, 2)) ./ (diff(data(:, 1)) / fs));
+title("smoothed rate of change"), xlabel("frame"), ylabel("pixels/s")
+
+% subplot(2, 3, 2), plot(data(:, 1), smooth(data(:, 2)));
+% title("smoothed"), xlabel("frame"), ylabel("pixels")
+
+% subplot(2, 3, 3), plot(data(:, 1), zscore(smooth(data(:, 2))));
+% title("zscore of smoothed"), xlabel("frame")
+
+% subplot(2, 3, 4), histogram(zscore(smooth(data(:, 2))));
+% title("zscore of smoothed"), xlabel("frame")
+
+% subplot(2, 3, 6), plot(data(1:end-1, 1), smooth(diff(data(:, 2)) ./ (diff(data(:, 1)) / fs)));
+% title("smoothed rate of change"), xlabel("frame"), ylabel("pixels/s")
 
 
 %% FFT
 
 clear data_fft
 clear data_power
-obj = VideoReader(video_file);
-fs = obj.FrameRate;
 N = length(data);
 xdft = fft(smooth(data(:, 2)));
 xdft = xdft(1:N/2+1);  % Trim the amount of data we show.
@@ -72,8 +88,9 @@ psdx(2:end-1) = 2*psdx(2:end-1);  % Enlarge tail-end values.
 freq = 0:fs/length(data(:, 2)):fs/2;
 % [psdx, freq] = pspectrum(data(:, 2), fs);
 
-subplot(2, 3, 5), plot(freq, pow2db(psdx));
-% subplot(2, 3, 5), plot(freq, psdx);
+% subplot(2, 3, 5), plot(freq, pow2db(psdx));
+subplot(2, 3, 5), plot(freq, psdx);
+xlabel("Hz")
 title("power spectrum")
 
 end
