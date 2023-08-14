@@ -1,4 +1,18 @@
 function plotStatistics(csv_file, video_file)
+% Plot the statistics of a pupillometry analysis of a face video.
+%
+% plotStatistics(csv_file, video_file)
+%
+% Syntax:
+%   plotStatistics('my.csv', 'my.avi')
+%
+% Inputs:
+%     csv_file:   The CSV file containing the pupillometry data.
+%
+%     video_file: The video file used to obtain the data in the CSV file.
+%
+% Outputs:
+%     Plots and statistics of the CSV data.
 
 %% Load data
 
