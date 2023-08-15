@@ -10,7 +10,8 @@ Here's a quick introduction to how to use the code.
 
 1. Open the `example/s191113_example.m` script.
 2. Change the string literal in line 2 to be the path to this repository.
-3. Run the `example/s191113_example.m` script!
+3. Run the `example/s191113_example.m` script! Follow the instructions to
+   produce the pupillometry data.
 
 Note that a description of each argument can be found in the comments of
 the `matlab/pupilMeasurement.m` script.
@@ -33,7 +34,15 @@ so.
 6. In line 11 of `example_custom/scustom.m`, change the string literal from
    `'example'` to `'example_custom'`. This ensures that the results will be
    saved to the `example_custom/` directory.
-7. Run the `example_custom/scustom.m` script!
+7. Run the `example_custom/scustom.m` script! Follow the promptings to
+   produce the pupillometry data. **Important note**: Sometimes, the
+   quality of the pupillometry data depends on the diamater line that is
+   drawn across the pupil. From experience, there have been times where the
+   same video produces drastically different results depending on the
+   drawn diameter. If the pupillometry data is not good quality (i.e. there
+   are many spikes in the data where the algorithm completely overestimates
+   the pupil size), then try running the script again with a different
+   start and end point when drawing the pupil diameter.
 
 ## The outputs
 
