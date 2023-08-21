@@ -31,9 +31,9 @@
 
 LOW_THRESH = 7.0;  % TODO
 HIGH_THRESH = 20.0;  % TODO, typical value is 35.
-SAVE_PATH = "/Users/christian/Documents/summer2023/pupillometry_matlab/example_full5/";  % TODO
+SAVE_PATH = "/Users/christian/Documents/summer2023/demo/pupillometry/";  % TODO
 DATA_FILE = "fc2_save_2023-08-09-103031-0000_radii.mat";  % TODO
-VIDEO_PATH = "/Users/christian/Documents/summer2023/matlab/my_data/full5/fc2_save_2023-08-09-103031-0000.avi";  % TODO
+VIDEO_PATH = "/Users/christian/Documents/summer2023/demo/fc2_save_2023-08-09-103031-0000.avi";  % TODO
 N_PEAKS = 10;  % TODO, typical value is 10.
 SMOOTH_N = 5;  % TODO
 
@@ -94,7 +94,7 @@ end
 [troughs, locs, w, p] = findpeaks(-R(:, 2));
 [sorted_prominence, sorted_prominence_indices] = sort(p, 'descend');
 
-fprintf(1, "Trough locations: [");
+fprintf(1, "Trough heights: [");
 for i = 1:N_PEAKS
     if i == N_PEAKS
         fprintf(1, "%f]\n", sorted_prominence(i));
